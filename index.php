@@ -14,7 +14,7 @@
 	include_once('function.php');
 	$query="select CustomerID from customers order by CustomerID desc";
 	$res=$db->query($query);
-	$count=$res->rowCount($res);
+	$count=$res->rowCount();
 	$pagination=0;
 	if($count > 0){
 	      $paginationCount=getPagination($count);
@@ -45,6 +45,9 @@
 	echo $content;
 	}
 
+	function loadInit(){
+
+	}
 
 ?>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -66,7 +69,23 @@ function changePagination(pageId,liId){
                  $("#pageData").html(result);
            }
       });
+
 }
+
+function loadInit(){
+	var dataString="pageId=0";
+	$.ajax({
+           type: "POST",
+           url: "loadData.php",
+           data: dataString,
+           cache: false,
+           success: function(result){
+                 $(".flash").hide();
+                 $("#pageData").html(result);
+           }
+      });	
+}
+loadInit();
 </script>
 </body>
 
